@@ -9,6 +9,14 @@ export type IWordStatus = {
   raw?: string;
 };
 
+export type IStatistic = {
+  wpm: number;
+  correct: number;
+  incorrect: number;
+  correctCharacters: number;
+  incorrectCharacters: number;
+};
+
 type IAppContext = {
   text: string;
   currentIndex: number;
@@ -21,6 +29,7 @@ type IAppContext = {
   setTimer: (value: any) => void;
   currentWord: () => string;
   currentWordStatus: () => IWordStatus;
+  statistics: () => IStatistic;
 };
 
 export const AppContext = createContext<IAppContext>({} as IAppContext);
@@ -45,6 +54,32 @@ export const AppProvider: FC = ({ children }) => {
     };
   }, [currentIndex, currentInput, currentWord]);
 
+  const statistics = useCallback((): IStatistic => {
+    let correct = 0;
+    let incorrect = 0;
+    let correctCharacters = 0;
+    let incorrectCharacters = 0;
+    wordsStatus.forEach((status) => {
+      if (status.correct) {
+        correct++;
+        correctCharacters += status.raw?.length || 0;
+      }
+
+      if (status.incorrect) {
+        incorrect++;
+        incorrectCharacters += status.raw?.length || 0;
+      }
+    });
+
+    return {
+      wpm: Math.round(correctCharacters / 5),
+      correct,
+      incorrect,
+      correctCharacters,
+      incorrectCharacters,
+    };
+  }, [wordsStatus]);
+
   useEffect(() => {
     getText().then(setText);
   }, []);
@@ -61,6 +96,7 @@ export const AppProvider: FC = ({ children }) => {
     setTimer,
     currentWord,
     currentWordStatus,
+    statistics,
   };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };

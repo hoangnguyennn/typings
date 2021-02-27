@@ -79,3 +79,32 @@ body {
   font-size: 26px;
   border-radius: 3px;
 }
+
+.statistics-wrapper {
+  display: flex;
+  margin-top: 12px;
+}
+
+.statistics {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  font-family: sans-serif;
+  border: 1px solid #8eb6d8;
+  border-radius: 3px;
+}
+
+.wpm {
+  padding: 6px 12px;
+  color: #527a1e;
+  font-size: 46px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.statistics-row {
+  border-top: 1px solid #aaa;
+  padding: 8px 20px;
+  white-space: nowrap;
+}
