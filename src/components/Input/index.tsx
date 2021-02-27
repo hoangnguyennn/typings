@@ -2,6 +2,7 @@ import {
   ChangeEvent,
   createRef,
   FC,
+  KeyboardEvent,
   useContext,
   useEffect,
   useState,
@@ -29,9 +30,8 @@ const Input: FC = () => {
     NodeJS.Timeout | undefined
   >(undefined);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value;
-    setCurrentInput(inputValue);
+  const handleInputKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
+    const inputValue = (event.target as any).value as string;
 
     if (inputValue.includes(' ')) {
       if (currentInput.trim().length) {
@@ -58,6 +58,11 @@ const Input: FC = () => {
     }
   };
 
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setCurrentInput(inputValue);
+  };
+
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -75,6 +80,7 @@ const Input: FC = () => {
         ref={inputRef}
         value={currentInput}
         onChange={handleInputChange}
+        onKeyUp={handleInputKeyUp}
         disabled={timer === 0}
       />
 

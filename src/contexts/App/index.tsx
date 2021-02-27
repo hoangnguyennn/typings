@@ -1,5 +1,4 @@
 import { createContext, FC, useCallback, useEffect, useState } from 'react';
-import vn2telex from 'vn2telex';
 import { getText } from '../../services';
 
 export type IWordStatus = {
